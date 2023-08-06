@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<pthread.h>
+
+void * ThreadProc(void *ptr)
+{
+    int *iValue = (int *)ptr;
+
+    printf("Paramter from main thread : %d\n",*iValue);
+}
+
+int main()
+{
+    pthread_t Thread_ID = 0;
+
+    int iRet = 0;
+    int iNo = 11;
+
+    int *parameter = &iNo;
+
+    iRet = pthread_create(&Thread_ID , NULL , ThreadProc , (int *)parameter);
+
+    if(iRet != 0)
+    {
+        printf("Unable to create thread\n");
+        return -1;
+    }
+    else
+    {
+        printf("Thread is created with ID : %lu\n",Thread_ID);
+    }
+
+    pthread_join(Thread_ID,NULL);
+
+    return 0;
+}
